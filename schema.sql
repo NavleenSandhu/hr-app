@@ -1,5 +1,21 @@
+
+CREATE TABLE jobs (
+    job_id UUID DEFAULT gen_random_uuid() NOT NULL,
+    job_title VARCHAR(100) NOT NULL,
+    min_salary DECIMAL(10, 2),
+    max_salary DECIMAL(10, 2),
+    PRIMARY KEY (job_id)
+);
+
+CREATE TABLE departments (
+    department_id UUID DEFAULT gen_random_uuid() NOT NULL,
+    department_name VARCHAR(100) NOT NULL,
+    manager_id UUID,
+    PRIMARY KEY (department_id)
+);
+
 CREATE TABLE employees (
-    employee_id UUID DEFAULT uuid_generate_v4() NOT NULL,
+    employee_id UUID DEFAULT gen_random_uuid() NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -12,22 +28,6 @@ CREATE TABLE employees (
     PRIMARY KEY (employee_id),
     FOREIGN KEY (manager_id) REFERENCES employees(employee_id),
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
-);
-
-CREATE TABLE departments (
-    department_id UUID DEFAULT uuid_generate_v4() NOT NULL,
-    department_name VARCHAR(100) NOT NULL,
-    manager_id UUID,
-    PRIMARY KEY (department_id),
-    FOREIGN KEY (manager_id) REFERENCES employees(employee_id)
-);
-
-CREATE TABLE jobs (
-    job_id UUID DEFAULT uuid_generate_v4() NOT NULL,
-    job_title VARCHAR(100) NOT NULL,
-    min_salary DECIMAL(10, 2),
-    max_salary DECIMAL(10, 2),
-    PRIMARY KEY (job_id)
 );
 
 CREATE TABLE job_history (

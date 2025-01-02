@@ -24,27 +24,27 @@ model Job {
 model Department {
     departmentId   String     @id @default(uuid())
     departmentName String     @db.VarChar(50)
-    managerId      String
-    manager        Employee   @relation("Employee", fields: [managerId], references: [employeeId])
+    managerId      String     @unique
+    manager        Employee   @relation("DepartmentManager", fields: [managerId], references: [employeeId])
     employees      Employee[] @relation("Department")
 }
 
 model Employee {
-    employeeId   String     @id @default(uuid())
-    firstName    String     @db.VarChar(50)
-    lastName     String     @db.VarChar(50)
-    email        String     @unique @db.VarChar(100)
-    phoneNumber  String?    @db.VarChar(20)
+    employeeId   String      @id @default(uuid())
+    firstName    String      @db.VarChar(50)
+    lastName     String      @db.VarChar(50)
+    email        String      @unique @db.VarChar(100)
+    phoneNumber  String?     @db.VarChar(20)
     hireDate     DateTime
     salary       Float?
     managerId    String?
-    manager      Employee?  @relation("EmployeeManager", fields: [managerId], references: [employeeId])
-    subordinates Employee[] @relation("EmployeeManager")
+    manager      Employee?   @relation("EmployeeManager", fields: [managerId], references: [employeeId])
+    subordinates Employee[]  @relation("EmployeeManager")
     departmentId String
-    department   Department @relation("Department", fields: [departmentId], references: [departmentId])
+    department   Department  @relation("Department", fields: [departmentId], references: [departmentId])
     jobId        String
-    job          Job        @relation(fields: [jobId], references: [jobId])
-    Department Department[] @relation("Employee")
+    job          Job         @relation(fields: [jobId], references: [jobId])
+    Department   Department? @relation("DepartmentManager")
 }
 
 model JobHistory {
