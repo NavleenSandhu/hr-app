@@ -14,45 +14,61 @@ datasource db {
 }
 
 model Job {
-    jobId     String     @id @default(uuid())
-    jobTitle  String     @db.VarChar(100)
-    minSalary Float?
-    maxSalary Float?
+    jobId     String     @id @default(uuid()) @map("job_id")
+    jobTitle  String     @map("job_title") @db.VarChar(100)
+    minSalary Float?     @map("min_salary")
+    maxSalary Float?     @map("max_salary")
     employees Employee[]
+
+    @@map("jobs")
 }
 
 model Department {
-    departmentId   String     @id @default(uuid())
-    departmentName String     @db.VarChar(50)
-    managerId      String     @unique
+    departmentId   String     @id @default(uuid()) @map("department_id")
+    departmentName String     @map("department_name") @db.VarChar(50)
+    managerId      String     @unique @map("manager_id")
     manager        Employee   @relation("DepartmentManager", fields: [managerId], references: [employeeId])
     employees      Employee[] @relation("Department")
+
+    @@map("departments")
 }
 
 model Employee {
-    employeeId   String      @id @default(uuid())
-    firstName    String      @db.VarChar(50)
-    lastName     String      @db.VarChar(50)
+    employeeId   String      @id @default(uuid()) @map("employee_id")
+    firstName    String      @map("first_name") @db.VarChar(50)
+    lastName     String      @map("last_name") @db.VarChar(50)
     email        String      @unique @db.VarChar(100)
-    phoneNumber  String?     @db.VarChar(20)
-    hireDate     DateTime
+    phoneNumber  String?     @map("phone_number") @db.VarChar(20)
+    hireDate     DateTime    @map("hire_date")
     salary       Float?
-    managerId    String?
+    managerId    String?     @map("manager_id")
     manager      Employee?   @relation("EmployeeManager", fields: [managerId], references: [employeeId])
     subordinates Employee[]  @relation("EmployeeManager")
-    departmentId String
+    departmentId String      @map("department_id")
     department   Department  @relation("Department", fields: [departmentId], references: [departmentId])
-    jobId        String
+    jobId        String      @map("job_id")
     job          Job         @relation(fields: [jobId], references: [jobId])
     Department   Department? @relation("DepartmentManager")
+
+    @@map("employees")
 }
 
 model JobHistory {
-    employeeId   String
-    startDate    DateTime
-    endDate      DateTime
-    jobId        String
-    departmentId String
+    employeeId   String   @map("employee_id")
+    startDate    DateTime @map("start_date")
+    endDate      DateTime @map("end_date")
+    jobId        String   @map("job_id")
+    departmentId String   @map("department_id")
 
     @@id([employeeId, startDate])
+    @@map("job_history")
+}
+
+model User {
+    userId   String @id @default(uuid()) @map("user_id")
+    email    String @unique @db.VarChar(100)
+    password String @db.VarChar(100)
+    name     String @db.VarChar(50)
+
+    @@map("users")
 }

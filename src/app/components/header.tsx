@@ -3,7 +3,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import React from 'react'
 import { usePathname } from 'next/navigation'
-
+import { Button } from '@/components/ui/button'
+import { signOut } from 'next-auth/react'
 const Header = () => {
     const pathname = usePathname()
     const pathnames = pathname.split('/').filter(Boolean).map((path: string) => {
@@ -36,13 +37,16 @@ const Header = () => {
         })
     }
     return (
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger />
-            <Breadcrumb>
-                <BreadcrumbList>
-                    {generateBreadcrumbs()}
-                </BreadcrumbList>
-            </Breadcrumb>
+        <header className="flex justify-between h-16 shrink-0 items-center gap-2 border-b px-4">
+            <div className='flex items-center'>
+                <SidebarTrigger />
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        {generateBreadcrumbs()}
+                    </BreadcrumbList>
+                </Breadcrumb>
+            </div>
+            <Button onClick={() => { signOut() }}>Sign Out</Button>
         </header>
     )
 }

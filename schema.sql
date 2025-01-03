@@ -41,3 +41,11 @@ CREATE TABLE job_history (
     FOREIGN KEY (job_id) REFERENCES jobs(job_id),
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
+
+CREATE TABLE users (
+    user_id UUID DEFAULT gen_random_uuid() NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (user_id)
+);
