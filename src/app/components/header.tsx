@@ -5,6 +5,7 @@ import React from 'react'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { signOut } from 'next-auth/react'
+import { Separator } from '@/components/ui/separator'
 const Header = () => {
     const pathname = usePathname()
     const pathnames = pathname.split('/').filter(Boolean).map((path: string) => {
@@ -40,6 +41,7 @@ const Header = () => {
         <header className="flex justify-between h-16 shrink-0 items-center gap-2 border-b px-4">
             <div className='flex items-center'>
                 <SidebarTrigger />
+                <Separator orientation="vertical" className="mr-2 h-4" />
                 <Breadcrumb>
                     <BreadcrumbList>
                         {generateBreadcrumbs()}

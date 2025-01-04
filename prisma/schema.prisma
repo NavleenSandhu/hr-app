@@ -26,8 +26,8 @@ model Job {
 model Department {
     departmentId   String     @id @default(uuid()) @map("department_id")
     departmentName String     @map("department_name") @db.VarChar(50)
-    managerId      String     @unique @map("manager_id")
-    manager        Employee   @relation("DepartmentManager", fields: [managerId], references: [employeeId])
+    managerId      String?    @unique @map("manager_id")
+    manager        Employee?  @relation("DepartmentManager", fields: [managerId], references: [employeeId])
     employees      Employee[] @relation("Department")
 
     @@map("departments")

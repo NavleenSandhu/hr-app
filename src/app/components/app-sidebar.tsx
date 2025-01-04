@@ -15,42 +15,44 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 
 const AppSidebar = () => {
+    const pathname = usePathname()
     const [data, setData] = useState([
         {
             name: 'Employees',
-            isOpen: true,
+            isOpen: pathname.includes('employees'),
             children: [
                 {
                     name: 'View Employees',
-                    link: 'dashboard/'
+                    link: '/dashboard/employees'
                 },
                 {
                     name: 'Add an Employee',
-                    link: 'dashboard/'
+                    link: '/dashboard/employees/add'
                 },
             ]
         },
         {
             name: 'Departments',
-            isOpen: false,
+            isOpen: pathname.includes('departments'),
             children: [
                 {
                     name: 'View Departments',
-                    link: 'dashboard/'
+                    link: '/dashboard/departments'
                 },
                 {
                     name: 'Add a Department',
-                    link: 'dashboard/'
+                    link: '/dashboard/departments/add'
                 },
             ]
         }
     ])
 
-    const [clicked, setClicked] = useState(data[0].children[0].link)
+    const [clicked, setClicked] = useState(pathname)
 
     const handleOpen = (index: number) => {
         const newData = [...data]
